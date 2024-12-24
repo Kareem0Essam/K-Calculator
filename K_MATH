@@ -1,1 +1,3943 @@
 
+#----------------------------------------#  
+#----------------------------------------#  
+#----------------------------------------#  
+###  المستخدم لازم يختار حاجة معينة  :-  
+def user_chooses ( print_message , input_message , choices , input_letter_case = '?' ) :  
+  if  not isinstance( choices , ( list , tuple ) )  or  len( choices ) == 0  :  
+    raise Exception('choices --> must be a not empty list or tuple ')  #  ERROR  
+
+
+
+  print ( str( print_message ) )  
+
+  choice = input ( str( input_message ) )  
+
+
+  if str( input_letter_case ) . lower() == 'lower' :  
+    while choice . lower() not in choices :  
+      print('\033[F\033[2K' , end = '' )  #  السطر هيتمسح choices لو المستخدم دخل حاجة مش موجودة فى  
+      choice = input ( str( input_message ) )  
+  else :  
+    while choice not in choices :  
+      print('\033[F\033[2K' , end = '' )  #  السطر هيتمسح choices لو المستخدم دخل حاجة مش موجودة فى  
+      choice = input ( str( input_message ) )  
+
+
+
+  return choice  #  ذى ما المستخدم مدخله  
+### ___________________ 
+#----------------------------------------#  
+#----------------------------------------#  
+#----------------------------------------#  
+
+
+
+
+
+#----------------------------------------#  
+#----------------------------------------#  
+#----------------------------------------#  
+###  المستخدم لازم يدخل حاجة معينة مش فراغ او مسافات  :-  
+def not_empty_input ( message ) :  
+  _input_ = input( str( message ) )  
+
+  while  not _input_  or  _input_.isspace()  :  
+    print('\033[F\033[2K' , end = '' )  #  السطر هيتمسح  لو المستخدم دخل فراغ او مسافات  
+    _input_ = input( str( message ) )  
+
+
+
+  return _input_  
+### ___________________ 
+#----------------------------------------#  
+#----------------------------------------#  
+#----------------------------------------#  
+
+
+
+
+
+#----------------------------------------#  
+#----------------------------------------#  
+#----------------------------------------#  
+###  المستخدم لازم يدخل رقم   لو مدخلش رقم المخرج هيبقى صفر :-  
+def input__num__or__0 ( str_time ) :  
+  try :  
+    return float( input( str( str_time ) ) )  
+  except :  
+    return 0  
+### ___________________ 
+#----------------------------------------#  
+#----------------------------------------#  
+#----------------------------------------#  
+
+
+
+
+
+#----------------------------------------#  
+#----------------------------------------#  
+#----------------------------------------#  
+###  المستخدم لازم يدخل رقم  :-  
+def user_input_number (  
+    enter_num__num_message = ( ' > ' , '' )  
+  , int_only = False  
+  , positive_negative = '+-'  
+  , include_zero__zero_message = ( True , '' )  
+):  
+
+
+
+  enter_num    , num_msg  = enter_num__num_message  
+
+  include_zero , zero_msg = include_zero__zero_message  
+
+
+
+  i_f = ' '  
+  if int_only :  
+    i_f = 'n integer '  
+
+
+  p_n = '' 
+  if positive_negative == '+' : 
+    p_n = 'positive ' 
+  elif positive_negative == '-' : 
+    p_n = 'negative ' 
+
+
+  z = ''  
+  if not include_zero : 
+    z = '(NOT ZERO) '  
+
+
+
+
+  print_num_msg = f'Please enter a{ i_f }{ p_n }number { z }:- '  
+  if str( num_msg ) :  
+    print_num_msg = str( num_msg )  
+
+
+  print( print_num_msg )  
+
+
+
+
+  if ( 
+    ( int_only          not in ( True , False ) )  
+   or
+    ( positive_negative not in ( '+' , '-' , '+-' , '-+' ) )  
+   or
+    ( include_zero      not in ( True , False ) )  
+   or
+    ( bool( include_zero ) == bool( zero_msg ) )  
+   or
+    ( not include_zero and ( not zero_msg or zero_msg.isspace() ) )  
+  ):  
+    raise Exception("""\033[3;1m  
+user_input_number ( enter_num__num_message = ( ' > ' , '' )  
+                  , int_only    = False  
+
+                  , positive_negative = '+-' -->  [ Positive Number |OR| Negative Number ] ~> {Default}  
+                                  or -> '+'  -->  [ Positive Number ]  
+                                  or -> '-'  -->  [ Negative Number ]  
+
+                  , include_zero__zero_message = ( True , '' )  \033[0m""")  #  ERROR  
+
+
+
+
+
+  del_lines = False  
+
+  while True :  
+    num = input (f'{ enter_num }') 
+
+    try :  
+
+      if int_only :  
+        num = int ( num )  
+      else : 
+        num = float ( num )  
+
+
+      if ( 
+          ( ( positive_negative == '+' )  and  ( num < 0 )  ) 
+         or  
+          ( ( positive_negative == '-' )  and  ( num > 0 )  ) 
+         or  
+          ( ( not include_zero )          and  ( num == 0 ) ) 
+      ): 
+        raise Exception() # ERROR 
+
+
+      break  
+
+
+    except :  
+    # except Exception as error :  
+        # print (f'\033[31mError :- { error } \033[0m')  
+
+
+      if del_lines :  
+        print('\033[F\033[2K' * 3 )  #  لو المستخدم مدخلش رقم للمرة التانية سطور التنبيه هتتمسح  
+      del_lines = True  
+
+
+      error_msg = f'Wrong Input : \'{ num }\' '  
+      if  not include_zero  and  num == 0  and  zero_msg != '?'  :  
+        error_msg = f'Error : { zero_msg } .'  
+
+      print(f'\033[31m{ error_msg }\033[0m')  
+
+
+
+  return num  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+###  باخد ارقام من المستخدم واحطها فى قايمة  :-  
+def nums_list () : 
+  _nums_list_ = [ ]  
+
+  print ('\nEnter Numbers :- ')  
+
+  while True :  
+    num = input (' > ')  
+
+    if num :  
+      try :  
+        _nums_list_ . append( float( num ) )  
+
+
+      except :  
+        print('\033[F\033[2K' , end = '')  #  لو المستخدم مدخلش رقم السطر هيتمسح  
+
+
+    else :  
+      print('\033[F\033[2K' , end = '')  #  السطر الاخير الفاضى هيتمسح  
+      break  
+
+
+
+  return _nums_list_  
+### __________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+###  ضرب الارقام اللى فى قايمة  :-  
+def product ( nums_list ) :  #  قايمة ارقام  
+  if not isinstance( nums_list , ( list , tuple ) ) :  
+    raise Exception('nums_list --> must be a list or tuple  &  all elements must be numbers .')  #  ERROR  
+
+  if not nums_list :  #-->  Empty List  
+    return 0  
+
+  else :    
+    for loop in nums_list :  
+      if not isinstance( loop , ( int , float ) ) :  
+        raise Exception('nums_list --> must be a list or tuple  &  all elements must be numbers .')  #  ERROR  
+
+
+
+
+  result = 1  
+
+  for loop in nums_list :  
+    result *= loop  
+
+
+  return result  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+
+
+#   ----------   __________   `-.-.-.-.-.-.-.-.-.-`   __________   ----------   # 
+#   ----------   __________   `-.-.-.-.-.-.-.-.-.-`   __________   ----------   # 
+#   ----------   __________   `-.-.-.-.-.-.-.-.-.-`   __________   ----------   # 
+#   ----------   __________   `-.-.-.-.-.-.-.-.-.-`   __________   ----------   # 
+#   ----------   __________   `-.-.-.-.-.-.-.-.-.-`   __________   ----------   # 
+
+
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 1️⃣ . Mathematical Expression ]  
+###  حل مسألة رياضية  :-  
+def solve_expression() :  
+  print ('\nPlease Enter a mathematical expression to solve :- ')  
+
+  del_lines = False 
+  while True :  
+    try :  
+      math_problem = input (' > ')  
+
+      for loop in math_problem :  
+        if loop not in ' 0123456789.+-*/%()' :  
+          raise Exception()  #  ERROR  
+
+
+      result = eval( math_problem )  
+      break  
+
+
+
+    except ZeroDivisionError :  
+      if del_lines : 
+        print('\033[F\033[2K' * 3 )  #  لو طلع خطاء للمرة التانية سطور التنبيه هتتمسح  
+      del_lines = True 
+
+      print('\033[31mError : Can\'t Divide by zero .\033[0m')  
+
+
+    except :  
+      if del_lines : 
+        print('\033[F\033[2K' * 3 )  #  لو طلع خطاء للمرة التانية سطور التنبيه هتتمسح  
+      del_lines = True 
+
+      print (f'\033[31mError : \'{ math_problem }\'\033[0m')  
+
+
+
+  return result  
+### __________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 7️⃣ . Factorial of NUM! ]  
+###  المضروب  :-  
+def factorial ( num ) :  #  Positive Integer Number  
+  if  '.' in str( num )  or  '-' in str( num )  :  
+    return f'\033[31mError \'{ num }\' : The factorial can be calculated only for positive integers numbers .\033[0m'  
+
+  result = 1  
+
+  for loop in range ( 1 , num + 1 ) :  
+    result *= loop  
+
+
+  return result  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 8️⃣ . Multiplication Table ]  
+###  جدول الضرب  :-  
+def multiplication_table() :  
+  nums = [ ]  
+
+  print()  ;  num = user_input_number((' > ' , 'Please enter numbers to show their multiplication tables :- \n(Note : Press Enter 2 Times To Finish) ' ))  
+  nums . append( num )  
+
+  while True :  
+    num = input(' > ')  
+    try :  
+      if not num :  
+        print('\033[F\033[2K' , end = '' )  #  السطر الفاضى هيتمسح Enter لو المستخدم داس  
+        break  
+
+      if float( num ) in nums :  
+        raise Exception()  #  ERROR  
+
+      nums . append( float( num ) )  
+
+    except :  
+      print('\033[F\033[2K' , end = '' )  #  لو المستخدم مدخلش ارقام السطر هيتمسح  .او.  لو دخل رقم موجود قبل كدا  
+
+
+
+  print ('\nThe Multiplication Tables Range Will Be From_NUM TO_NUM :- \n\n(Note : TO_NUM Must Be Greater Than From_NUM)\n')  
+
+
+
+  print()  ;  _from_ = user_input_number(("From_NUM = " , 'Please enter integer numbers :- \n' ) , int_only = True )  
+  print()  
+
+
+  alert = True  
+
+  while True :  
+    _to_ = user_input_number(("TO_NUM = " , ' ' ) , int_only = True )  
+    if _to_ > _from_ :  
+      break  
+
+    else :  
+      print('\033[F\033[2K' * 2 , end = '' )  #  لو طلع خطاء للمرة التانية سطور التنبيه هتتمسح  
+      if alert == True :  
+        print ('\n(TO_NUM Must Be Greater Than From_NUM)')  
+        alert = False  
+
+
+
+  multiplication_tables = [ ]  
+
+
+
+  print('\n')  
+
+  for num in nums :  
+    multiplication_tables . append( f'\nThe Multiplication Table For { num } :- \n' )  
+
+
+    for m in range( _from_ , _to_ + 1 ) :  
+      multiplication_tables . append( f'{ num } × {m:<{ len( str( _to_ ) ) }} = { num * m }' )  
+
+    if num != nums [ -1 ] :  
+      multiplication_tables . append( f'\n\n   { "-" * 25 } \n' )  
+
+
+
+  return ( '\n' . join( multiplication_tables ) )  
+### __________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 1️⃣ 5️⃣ . NUM --> Prime ? ]  
+###  هل الرقم اولى  :-  
+def is_prime ( num ) :  
+  if  '.' in str( num )  or  num <= 1  :  
+    return False  #  1  ~>  Not Prime  
+
+
+  result = True  
+
+  for loop in range ( 2 , ( num // 2 ) + 1 ) :  
+      if num % loop == 0 :  
+        result = False  
+        break  
+
+
+  return result  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 9️⃣ . Numbers Range ]  
+###  مدى ارقام  :-  
+def nums_range() :  
+  print ('\nThe Numbers Range Will Be From_NUM TO_NUM :- \n\n(Note : TO_NUM Must Be Greater Than From_NUM)\n')  
+
+  print()  ;  _from_ = user_input_number(("From_NUM = " , 'Please enter integer numbers :- \n' ) , int_only = True )  
+  print()  
+
+  alert = True  
+
+  while True :  
+    _to_ = user_input_number(("TO_NUM = " , ' ' ) , int_only = True )  
+    if _to_ > _from_ :  
+      break  
+
+    else :  
+      print('\033[F\033[2K' * 2 , end = '' )  #  لو طلع خطاء للمرة التانية سطور التنبيه هتتمسح  
+      if alert == True :  
+        print ('\n(TO_NUM Must Be Greater Than From_NUM)')  
+        alert = False  
+
+  user_choice = input (f'''\n\nPlease select an option : ( 1 - 2 - 3 - 4 ) :- 
+
+1. Print all numbers from { _from_ } to { _to_ } 
+2. Even      numbers only 
+3. Odd       numbers only 
+4. Prime     numbers only 
+
+ > ''')  
+
+
+  nums = [ ]  
+
+
+  for loop in range ( _from_ , _to_ + 1 ) :  
+
+    if   user_choice == '2' :  #  Evens  
+      if loop % 2 == 0 :  
+        nums . append( loop )  
+
+
+    elif user_choice == '3' :  #  Odds  
+      if loop % 2 != 0 :  
+        nums . append( loop )  
+
+
+    elif user_choice == '4' :  #  Primes  
+      if is_prime( loop ) == True :  #  == True لازم  
+        nums . append( loop )  
+
+
+    else :  #  All  
+      nums . append( loop )  
+
+
+
+  if   user_choice == '2' :  #  Evens  
+    nums_type = 'Even'  
+  elif user_choice == '3' :  #  Odds  
+    nums_type = 'Odd'  
+  elif user_choice == '4' :  #  Primes  
+    nums_type = 'Prime'  
+  else :  #  All  
+    nums_type = 'All'  
+
+
+
+
+
+  print ( f'\n\033[100;1m\n\n( { nums_type } Numbers → { len( nums ) } )\n\n\n' + ( '\n' . join( map( str , nums ) ) ) + '\n\033[0m' )  
+
+
+
+  return f'''SUM = { sum( nums ) } \033[0m 
+\n--->\033[100;1m The Multiplication Result = { product( nums ) } '''  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 1️⃣ 1️⃣ . Percentage % ]  
+###  النسبة المئوية  :-  
+def percentage () :  
+  percentage_options_list = ( '1. NUM × Percentage'  
+, '2. Increase OR Decrease the NUM value by a Percentage'  
+, '3. Calculating the percentage of NUM1(Part) from NUM2(Whole)'  
+, '4. Calculating the change in NUM value'  
+)  ;  print_percentage_options_list = '\n' . join ( percentage_options_list )  
+
+
+  percentage_option = user_chooses (f'''\nPlease select an option : ( 1 - 2 - 3 - 4 ) :- 
+
+{ print_percentage_options_list } 
+''' , ' > ' , ( '1' , '2' , '3' , '4' ) )  
+
+
+  print ('\n   ' + percentage_options_list [ int( percentage_option ) - 1 ] + ' :-' )  
+
+
+
+
+
+
+  if percentage_option == '1' :  #-->  1. NUM × Percentage  
+    print()  ;  num        = user_input_number(('NUM = ' , ' ' ))  
+    print()  ;  percentage = user_input_number(('Percentage % = ' , ' ' ))  
+
+    result = f'''{ num } × { percentage }% 
+\n   = { num } × { percentage / 100 } 
+\n   ≈ { num * ( percentage / 100 ) } '''  
+
+
+
+
+
+
+
+  elif percentage_option == '2' :  #-->  2. Increase OR Decrease the NUM value by a Percentage  
+    print()  ;  num        = user_input_number(('NUM = ' , ' ' ))  
+    print()  ;  percentage = user_input_number(('Percentage % = ' , ' ' ))  
+    print()  ;  sign       = user_chooses ( '' , '( + or - ) ~> ' , ( '+' , '-' ) )  
+
+
+
+    result = (  
+f'''{ num } { sign } ( { num } × { percentage }% ) 
+\n   = { num } { sign } ( { num } × { percentage / 100 } ) \n'''  
++  
+(  
+f'''\n   = { num } \033[92m+ { num * ( percentage / 100 ) } <~ (The Increase Value) \033[39m 
+\n   ≈ { num + ( num * ( percentage / 100 ) ) } '''  
+##OR:- { num * ( 1 + ( percentage / 100 ) ) }  
+if     sign == "+"  # ↑  
+else # sign == "-"    ↓  
+f'''\n   = { num } \033[31m- { num * ( percentage / 100 ) } <~ (The Decrease Value) \033[39m 
+\n   ≈ { num - ( num * ( percentage / 100 ) ) } '''  
+##OR:- { num * ( 1 - ( percentage / 100 ) ) }  
+)  
+)  
+
+
+
+# ##  OR  :-  
+
+
+
+#     result =  f'''{ num } { sign } ( { num } × { percentage }% ) 
+# \n   = { num } { sign } ( { num } × { percentage / 100 } ) 
+# \n   = { num } \033[{ 92 if sign == "+" else 31 }m{ sign } { num * ( percentage / 100 ) } <~ (The { 'Increase' if sign == '+' else 'Decrease' } Value) \033[39m 
+# \n   ≈ { num * ( 1 + ( ( percentage / 100 ) * ( 1 if sign == "+" else -1 ) ) ) } '''  
+
+
+
+
+
+
+
+  elif percentage_option == '3' :  #-->  3. Calculating the percentage of NUM1(Part) from NUM2(Whole)  
+    print()  ;  part  = user_input_number(('Part = '  , ' ' ) , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+    print()  ;  whole = user_input_number(('Whole = ' , ' ' ) , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+    print()  
+
+
+
+    result = f'''{ part }  IS ALMOST  { ( part / whole ) * 100 }%  OF  { whole } 
+     { part } ≈ { whole } × { part / whole } \033[0m 
+
+
+--->\033[100;1m { whole }  IS ALMOST  { ( whole / part ) * 100 }%  OF  { part } 
+     { whole } ≈ { part } × { whole / part } '''  
+
+
+
+
+
+
+
+  else :  #-->  4. Calculating the change in NUM value  
+    _4_options_list = ( '1. Using the percentage of change in NUM value'  
+, '2. Using the NUM value before & after the change'  
+)  ;  print_4_options = '\n' . join ( _4_options_list )  
+
+
+    _4_option = user_chooses (f'''\nPlease select an option : ( 1 - 2 ) :- 
+
+{ print_4_options } 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+    print ('\n   ' + _4_options_list [ int( _4_option ) - 1 ] + ' :- \n' )  
+
+
+
+    if _4_option == '1' :  #-->  1. Using the percentage of change in NUM value  
+      print()  ;  num_after  = user_input_number((' > ' , 'The NUM Value After The Change :- '  )  
+                                        , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+
+
+      in_de = user_chooses ('''\n\nThe Change Percentage :- 
+1. \033[92mIncrease Percentage\033[0m 
+2. \033[31mDecrease Percentage\033[0m 
+\n(Type : 1 or 2 )\n ''' , ' > ' , ( '1' , '2' ) )  
+
+
+      colored_in_de = f'\033[{ 92 if in_de == "1" else 31 }mThe { ( "Increase" , "Decrease" ) [ int( in_de ) - 1 ] }'  
+
+
+      print()  ;  percentage = user_input_number((f'{ colored_in_de } Percentage % = ' , ' ' )  
+                                     , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+      print('\033[0m')  
+
+
+
+
+      result = (  
+f'\033[4:2m The NUM Value Before \033[4:0m { colored_in_de }\033[39m :- \n\n'  
++  
+(  
+f'''\n   = { num_after } / ( 100% + { percentage }% ) 
+\n   = { num_after } / { 100 + percentage }% 
+\n   = { num_after } / { 1 + ( percentage / 100 ) } 
+\n   ≈ \033[4:2m { ( num_before := num_after / ( 1 + ( percentage / 100 ) ) ) } \033[4:0m 
+\n\n{ num_after } ≈ \033[4:2m { num_before :.2f} \033[4:0m \033[92m+ { num_after - num_before } <~ (The Increase Value) \033[39m '''  
+if     in_de == "1"  #→ Increase  ↑  
+else # in_de == "2"  -→ Decrease  ↓  
+f'''\n   = { num_after } / ( 100% - { percentage }% ) 
+\n   = { num_after } / { 100 - percentage }% 
+\n   = { num_after } / { 1 - ( percentage / 100 ) } 
+\n   ≈ \033[4:2m { ( num_before := num_after / ( 1 - ( percentage / 100 ) ) ) } \033[4:0m 
+\n\n{ num_after } ≈ \033[4:2m { num_before :.2f} \033[4:0m \033[31m- { num_before - num_after } <~ (The Decrease Value) \033[39m '''  
+)  
+)  
+
+
+
+# ##  OR  :-  
+
+
+
+#       result = f'''\033[4:2m The NUM Value Before \033[4:0m { colored_in_de }\033[39m :- \n 
+# \n   = { num_after } / ( 100% { ( sign := '+' if in_de == "1" else '-' ) } { percentage }% ) 
+# \n   = { num_after } / { 100 + ( _percentage_ := percentage * ( 1 if in_de == "1" else -1 ) ) }% 
+# \n   = { num_after } / { 1 + ( _percentage_ / 100 ) } 
+# \n   ≈ \033[4:2m { ( num_before := num_after / ( 1 + ( _percentage_ / 100 ) ) ) } \033[4:0m 
+# \n\n{ num_after } ≈ \033[4:2m { num_before :.2f} \033[4:0m \033[{ 92 if in_de == "1" else 31 }m{ sign } { num_after - num_before if in_de == "1" else num_before - num_after } <~ ({ colored_in_de } Value) \033[39m '''  
+
+
+
+
+
+
+    else :  #-->  2. Using the NUM value before & after the change  
+
+
+      print()        ;  num_before = user_input_number((' > ' , 'The NUM Value \033[4:2m Before \033[4:0m The Change :- ' )  
+                                              , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+
+
+      print('\n\n')  ;  num_after  = user_input_number((' > ' , 'The NUM Value \033[4:2m After \033[4:0m The Change :- '  )  
+                                              , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+
+
+      if num_after == num_before :  
+        print ('\n\n\033[31mPlease enter a different value :- \033[0m')  
+        while num_after == num_before :  
+          print('\n\n')  
+          num_after  = user_input_number((' > ' , 'The NUM Value \033[4:2m After \033[4:0m The Change :- '  )  
+                                , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+
+
+      colored_in_de = ( '\033[92mThe Increase' if num_after > num_before else '\033[31mThe Decrease' )  
+      print()  
+
+
+
+      result = f'''\033[2K 
+The NUM Value \033[4:2m Before \033[4:0m { colored_in_de }\033[39m =  { num_before } 
+
+The NUM Value \033[4:2m After \033[4:0m  { colored_in_de }\033[39m =  { num_after } 
+
+
+
+{ colored_in_de } Value ≈ { ( in_de_value := ( num_after - num_before  if num_after > num_before else  num_before - num_after ) ) } 
+
+{ colored_in_de } percentage ≈ { ( in_de_value / num_before ) * 100 }% \033[39m 
+'''  
+
+
+
+
+
+
+
+  return result  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 1️⃣ 3️⃣ . 𝕊 ⪻===⪼ 𝔻 ]  
+
+
+
+# ===== ===== ===== ===== #  
+def GCD ( nums_list ) :  #  Greatest Common Divisor  باستخدام الخوارزمية الإقليدية  ...  أكبر قاسم مشترك  
+  error = 'nums_list --> must be a not empty list or tuple ,\nAll elements must be positive integer numbers ,\n(Not Zero)\n(At Least Two Numbers)\n(Non-Repeating Numbers)'  
+  if  not isinstance( nums_list , ( list , tuple ) )  or  len( nums_list ) in ( 0 , 1 )  :  
+    raise Exception( error )  #  ERROR  
+  else :    
+    for loop in nums_list :  
+      if  not isinstance( loop , int )  or  loop <= 0  or  nums_list.count( loop ) != 1  :  
+        raise Exception( error )  #  ERROR  
+
+
+
+  _nums_list_ = [ loop for loop in nums_list ]  
+
+
+  for loop in range( len( nums_list ) - 1 ) :  
+    num_1  ,  num_2   =   _nums_list_ [ 0 ]  ,  _nums_list_ [ 1 ]  
+
+    big_num   = ( num_1  if num_1   >  num_2 else  num_2 )  
+    small_num = ( num_2  if big_num == num_1 else  num_1 )  
+
+
+    while True :  
+      remainder = big_num % small_num  
+
+      if remainder == 0 :  
+        gcd = small_num  
+        _nums_list_ [ 0 : 2 ] = [ gcd ]  
+        break  
+
+      big_num   = ( remainder  if remainder > small_num else  small_num )  
+      small_num = ( small_num  if remainder > small_num else  remainder )  
+
+
+
+  return gcd  
+# ===== ===== ===== ===== #  
+
+
+
+def S_D () :  
+  options_list = (  
+'1. Decimal Form →  Number '  
+,  
+'''2. Symbolic Form :- 
+
+  Numerator 
+───────────── 
+ Denominator '''  
+,  
+'''3. Mixed Number :- 
+
+         Numerator 
+Number ───────────── 
+        Denominator '''  
+)  ;  print_options = '\n\n\n' . join ( options_list )  
+
+
+  option = user_chooses (f'''\nPlease select an option : ( 1 - 2 - 3 ) :- 
+
+{ print_options } 
+''' , ' > ' , ( '1' , '2' , '3' ) )  
+
+
+  print ('\n   ' + options_list [ int( option ) - 1 ] + '\n' )  
+
+
+
+
+
+
+  if option == '1' :  #  1. Decimal Form  
+    decimal_number = user_input_number( ( 'Number = ' , ' ' )  
+    , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+
+
+
+    up_num   = int( str( decimal_number ) . replace( '.' , '' ) )  
+    down_num = int( '1' + ( '0' * len( str( decimal_number ) . split('.') [ 1 ] ) ) )  
+
+
+    ##----------  ----------  ----------##  
+    gcd_num = GCD( ( up_num , down_num ) )  
+    ##  
+    ## OR :-  
+    ##  
+    # from math import gcd  
+    # gcd_num = gcd( up_num , down_num  )  
+    ##----------  ----------##  
+
+
+    symbolic_numerator    =  up_num    /  gcd_num  
+    symbolic_denominator  =  down_num  /  gcd_num  
+
+
+
+    mixed_number          =  symbolic_numerator  //  symbolic_denominator  
+    mixed_numerator       =  symbolic_numerator  %   symbolic_denominator  
+    mixed_denominator     =  symbolic_denominator  
+
+
+
+
+
+  elif option == '2' :  #  2. Symbolic Form  
+    symbolic_numerator = user_input_number( ( 'Numerator = ' , ' ' )  
+    , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+
+    symbolic_denominator = user_input_number( ( 'Denominator = ' , ' ' )  
+    , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+
+
+
+    decimal_number     =  symbolic_numerator  /  symbolic_denominator  
+
+
+
+    mixed_number       =  symbolic_numerator  //  symbolic_denominator  
+    mixed_numerator    =  symbolic_numerator  %   symbolic_denominator  
+    mixed_denominator  =  symbolic_denominator  
+
+
+
+
+
+  else :  #  3. Mixed Number  
+    mixed_number = user_input_number( ( 'Number = ' , ' ' )  
+    , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+
+    mixed_numerator = user_input_number( ( 'Numerator = ' , ' ' )  
+    , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+
+    mixed_denominator = user_input_number( ( 'Denominator = ' , ' ' )  
+    , include_zero__zero_message = ( False , '(NOT ZERO)' ) )  
+
+
+
+    symbolic_numerator    =  ( mixed_number  *  mixed_denominator )  +  mixed_numerator  
+    symbolic_denominator  =  mixed_denominator  
+
+
+
+    decimal_number        =  symbolic_numerator  /  symbolic_denominator  
+
+
+
+
+
+
+
+  result = f'''\033[2K 
+Decimal Form →  { decimal_number } 
+
+
+
+Symbolic Form :- 
+
+   { symbolic_numerator } 
+  { '─' * ( len( str( symbolic_numerator  if symbolic_numerator > symbolic_denominator else  symbolic_denominator ) ) + 4 ) } 
+   { symbolic_denominator } 
+
+
+
+Mixed Number :- 
+
+{ ' ' * ( len( str( mixed_number ) ) + 4 ) }{ mixed_numerator } 
+  { mixed_number } { '─' * ( len( str( mixed_numerator  if mixed_numerator > mixed_denominator else  mixed_denominator ) ) + 4 ) } 
+{ ' ' * ( len( str( mixed_number ) ) + 4 ) }{ mixed_denominator } 
+'''  
+
+
+
+
+
+  return result  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 1️⃣ 6️⃣ . Year --> Leap ? ]  
+###  هل السنة كبيسة  :-  
+def is_leap ( year ) :  
+  if  '.' in str( year )  or  year <= 0  :  
+    return False  
+
+
+  result = False  
+
+
+  if (  #  https://www.timeanddate.com/date/leapyear.html  
+
+( ( year %  4  == 0 )  
+        and  
+  ( year % 100 != 0 ) )  
+
+or  
+
+( year % 400 == 0 )  
+
+  ) :  
+    result = True  
+
+
+
+  return result  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 1️⃣ 7️⃣ . Geometric Shapes ]  
+###  الاشكال الهندسية  :-  
+
+
+
+# ===== ===== ===== ===== #  
+##  2D Shapes  ##  
+geometric_2D_shapes_list = (  
+'1. Circle   〇'  
+,  
+'2. Oval   ⬯'  
+,  
+'3. Triangle   ꕔ'  
+,  
+'4. Square   ☐'  
+,  
+'5. Rhombus   ◊'  
+,  
+'6. Rectangle   ▭'  
+,  
+'7. Parallelogram   ▱'  
+,  
+'8. Trapezoid   ⏢'  
+)  ;  print_geometric_2D_shapes_list = '\n\n' . join ( geometric_2D_shapes_list )  
+# ===== ===== ===== ===== #  
+
+
+
+# ===== ===== ===== ===== #  
+##  3D Shapes  ##  
+geometric_3D_shapes_list = (  
+'''1. Sphere :- 
+
+          _ , _  
+      , '  .    ' , 
+    ,'    .        ', 
+   ,     .           , 
+  ,     .   ×         , 
+   ,     .           , 
+    ,     .         ,  
+     ',    .      ,' 
+        ' - , - ' 
+'''  
+,  
+'''2. Cylinder :- 
+
+    .-----.  
+   |._____.| 
+   |       | 
+   |       | 
+   |       | 
+   |-------| 
+   '._____.' 
+'''  
+,  
+'''3. Pyramid :- 
+
+       /\.         
+      /  \`.       
+     /    \ `.     
+    /      \  `.   
+   /        \   `. 
+  /          \  /  
+ /____________\/   
+'''  
+,  
+'''4. Cone :- 
+
+       /↑\    
+      / | \   
+     /  |  \  
+    /.'`|`'.\ 
+    '-.-.-.-' 
+'''  
+,  
+'''5. Cube :- 
+
+     +------+ 
+    /|     /| 
+   +-+----+ | 
+   | |    | | 
+   | +----+-+ 
+   |/     |/  
+   +------+   
+'''  
+,  
+'''6. Rectangular Prism :- 
+
+   +--------+.      
+   |`.      | `.    
+   |  `.    |   `.  
+   |    `+--+-----+ 
+   |     |  |     | 
+   +-----+--+.    | 
+    `.   |    `.  | 
+      `. |      `.| 
+        `+--------+ 
+'''  
+)  ;  print_geometric_3D_shapes_list = '\n\n\n' . join ( geometric_3D_shapes_list )  
+# ===== ===== ===== ===== #  
+
+
+
+# ===== ===== ===== ===== #  
+# ===== ===== ===== ===== #  
+# ===== ===== ===== ===== #  
+# ===== ===== ===== ===== #  
+
+
+
+
+# ===== ===== ===== #  
+def circle ( ) :  #  〇   1  
+  PI = 3.141592653589793  
+
+  circle_options = user_chooses(''' 
+
+          _ , _  
+      , '       ' , 
+    ,'             ', 
+   ,                 , 
+   ,        ×--------, 
+   ,                 , 
+    ,               ,  
+     ',           ,' 
+        ' - , - ' 
+
+1. Radius 
+2. Circumference  &  Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+
+
+
+  if circle_options == '1' :  #####  1. Radius  
+    radius_options = user_chooses(''' 
+Calculating The Radius By :- 
+
+1. Circumference 
+2. Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+    if radius_options == '1' :  #  1. Circumference 
+      print(''' 
+          Circumference 
+Radius = ─────────────── 
+             2 × π 
+''')  
+
+      circumference = user_input_number ( ( 'Circumference = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m Radius ≈ { circumference / ( 2 * PI ) } \033[0m')  
+
+
+
+    else :  #  2. Area  
+      print(''' 
+            _______ 
+           / Area 
+Radius = ²√ ────── 
+              π 
+''')  
+
+      area = user_input_number ( ( 'Area = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m Radius ≈ { ( area / PI ) ** 0.5 } \033[0m')  
+
+
+
+
+
+  else :  #####  2. Circumference  &  Area   
+    radius = user_input_number ( ( 'Radius = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+    print('\n\nCircumference = 2 × π × Radius ')  
+
+    print (f'\n\n--->\033[100;1m Circumference ≈ { 2 * PI * radius } \033[0m')  
+
+
+
+    print('\n\nArea = π × Radius² ')  
+
+    print (f'\n\n--->\033[100;1m Area ≈ { PI * ( radius ** 2 ) } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def oval ( ) :  #  ⬯   2  
+  PI = 3.141592653589793  
+
+  print(''' 
+          _ , _  
+      , '   |   ' , 
+    ,'      |      ', 
+   ,      a |        , 
+  ,         |         , 
+  , . . . . +---------, 
+  ,         .   b     , 
+   ,        .        , 
+    ,       .       ,  
+     ',     .     ,' 
+        ' - , - ' 
+  
+''')  
+
+
+
+  while True :  
+
+    a = user_input_number ( ( 'a = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+    b = user_input_number ( ( 'b = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    if a != b :  
+      break  
+
+    else :  
+      print("\n\033[31mError :- \na & b must have different lengths . \033[0m\n")  
+
+
+
+
+  print(""" 
+Ramanujan's Approximation :-                                  _______________________ 
+                             Perimeter ≈ π × ( 3( a + b ) - ²√( 3a + b ) × ( a + 3b ) ) 
+""")  
+
+
+  print (f'\n\n--->\033[100;1m Perimeter ≈ { PI * ( ( 3 * ( a + b ) ) - ( ( ( ( 3 * a ) + b ) * ( a + ( 3 * b ) ) ) ** 0.5 ) ) } \033[0m')  
+
+
+
+  print('\n\nArea = π × a × b ')  
+
+
+  print (f'\n\n--->\033[100;1m Area ≈ { PI * a * b } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def triangle ( ) :  #  ꕔ   3  
+
+  # ===== #  
+  def enter_triangle_sides ( ) :  
+    while True :  
+
+      a = user_input_number ( ( 'a = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      b = user_input_number ( ( 'b = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      c = user_input_number ( ( 'c = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      if (  
+              a + b  >  c  
+          and  
+              a + c  >  b  
+          and  
+              b + c  >  a  
+      ) :  
+        break  
+
+      else :  
+        print("\n\033[31mError :- \nThe entered lengths do not satisfy the conditions for a triangle ,\nEnsure that the sum of any two sides is greater than the third side . \033[0m\n")  
+
+
+
+    return  a  ,  b  ,  c  #--->  Tuple → ( a , b , c )  
+  # ===== #  
+
+
+
+  triangle_options = user_chooses(''' 
+
+       /|\        
+      / | \       
+     /  |  \ c    
+  a /   |   \     
+   /    |    \    
+  /    h|     \   
+ /      |      \  
+/_______|_______\ 
+        b 
+
+1. Perimeter 
+2. Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+
+
+
+  if triangle_options == '1' :  ###  1. Perimeter 
+    print ('\nPerimeter = a + b + c ')  
+
+
+    print (f'\n\n\n--->\033[100;1m Perimeter ≈ { sum( enter_triangle_sides() ) } \033[0m')  
+
+
+
+  else :  ###  2. Area  
+    area_options = user_chooses(''' 
+Calculating The Area By :- 
+
+1. b  &  h 
+2. a  &  b  &  c 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+    if area_options == '1' :  #  1. b & h  
+      print(''' 
+          b × h 
+Area =  ───────── 
+            2 
+''')  
+
+      b = user_input_number ( ( 'b = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      h = user_input_number ( ( 'h = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m Area ≈ { ( b * h ) / 2 } \033[0m')  
+
+
+
+    else :  #  2. a & b & c 
+      print(""" 
+Heron's Formula :-               _______________________________________ 
+                   Perimeter = ²√ S × ( S - a ) × ( S - b ) × ( S - C )  
+
+     a + b + c 
+S = ─────────── 
+         2 
+""")  
+
+
+      a , b , c = enter_triangle_sides() # Tuple  
+
+      S = ( a + b + c ) / 2  
+
+
+      print (f'\n\n\n--->\033[100;1m Area ≈ { ( S * ( ( S - a ) * ( S - b ) * ( S - c ) ) ) ** 0.5 } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def square ( ) :  #  ☐   4  
+  square_options = user_chooses(''' 
+
+          a           
+    _______________   
+    |             |   
+    |             | a 
+  a |             |   
+    |             |   
+    |_____________|   
+             a        
+
+1. a 
+2. Perimeter  &  Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+
+
+
+  if square_options == '1' :  #####  1. a  
+    a_options = user_chooses(''' 
+Calculating a By :- 
+
+1. Perimeter 
+2. Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+    if a_options == '1' :  #  1. Perimeter 
+      print('\na = Perimeter ÷ 4 ')   
+
+      perimeter = user_input_number ( ( 'Perimeter = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m a ≈ { perimeter / 4 } \033[0m')  
+
+
+
+    else :  #  2. Area  
+      print(''' 
+      _______ 
+a = ²√ Area 
+''')  
+
+      area = user_input_number ( ( 'Area = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m a ≈ { area ** 0.5 } \033[0m')  
+
+
+
+
+
+  elif square_options == '2' :  #####  2. Perimeter  &  Area  
+    a = user_input_number ( ( 'a = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+    print('\n\nPerimeter = a × 4 ')  
+
+
+    print (f'\n\n--->\033[100;1m Perimeter ≈ { a * 4 } \033[0m')  
+
+
+
+    print('\n\nArea = a × a ')  
+
+
+    print (f'\n\n--->\033[100;1m Area ≈ { a * a } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def rhombus ( ) :  #  ◊   5  
+  rhombus_options = user_chooses(''' 
+
+     /|\ 
+    / | \ a 
+ a /  |  \ 
+  /   |d1 \  
+ /    |    \ 
+<-----+----->
+ \ d2 |    / 
+  \   |   / 
+   \  |  / a 
+  a \ | / 
+     \|/ 
+
+1. a 
+2. d ( Unknown ? ) 
+3. Perimeter 
+4. Area 
+''' , ' > ' , ( '1' , '2' , '3' , '4' ) )  
+
+
+
+
+
+
+  if rhombus_options == '1' :  #####  1. a  
+    print('\na = Perimeter ÷ 4 ')   
+
+    perimeter = user_input_number ( ( 'Perimeter = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    print (f'\n\n\n--->\033[100;1m a ≈ { perimeter / 4 } \033[0m')  
+
+
+
+
+
+
+  elif rhombus_options == '2' :  #####  2. d ( Unknown ? )  
+    d_unknown_options = user_chooses(''' 
+Calculating d ( Unknown ? ) By :- 
+
+1. d ( Known )  &  a 
+2. d ( Known )  &  Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+    if d_unknown_options == '1' :  #  1. d ( Known )  &  a  
+      print(""" 
+Pythagorean Theorem :-                     ____________________________ 
+                       d ( Unknown ? ) = ²√ ( 2 × a² ) - ( d(Known)² ) 
+""")  
+
+      d_known = user_input_number ( ( 'd(Known) = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      a = user_input_number ( ( 'a = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m d ( Unknown ? ) ≈ { ( ( 2 * ( a ** 2 ) ) - ( d_known ** 2 ) ) ** 0.5 } \033[0m')  
+
+
+
+    else :  #  2. d ( Known )  &  Area  
+      print(""" 
+                    2 × Area 
+d ( Unknown ? ) = ──────────── 
+                    d(Known) 
+""")  
+
+      d_known = user_input_number ( ( 'd(Known) = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      area = user_input_number ( ( 'Area = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m d ( Unknown ? ) ≈ { ( 2 * area ) / d_known } \033[0m')  
+
+
+
+
+
+  elif rhombus_options == '3' :  #####  3. Perimeter  
+    print('\nPerimeter = a × 4 ')   
+
+    a = user_input_number ( ( 'a = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    print (f'\n\n\n--->\033[100;1m Perimeter ≈ { a * 4 } \033[0m')  
+
+
+
+
+
+  else :  #####  4. Area  
+    print(''' 
+          d1 × d2 
+Area =  ─────────── 
+             2 
+''')  
+
+
+    d1 = user_input_number ( ( 'd1 = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+    d2 = user_input_number ( ( 'd2 = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    print (f'\n\n\n--->\033[100;1m Area ≈ { ( d1 * d2 ) / 2 } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def rectangle ( ) :  #  ▭   6  
+  rectangle_options = user_chooses(''' 
+
+              b            
+    ____________________   
+    |                  |   
+    |                  |   
+  a |                  | a 
+    |                  |   
+    |__________________|   
+              b            
+
+1. a 
+2. b 
+3. Perimeter  &  Area 
+''' , ' > ' , ( '1' , '2' , '3' ) )  
+
+
+
+
+
+
+  if rectangle_options == '1' :  #####  1. a  
+    a_options = user_chooses(''' 
+Calculating a By :- 
+
+1. Perimeter  &  b 
+2. Area  &  b 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+    if a_options == '1' :  #  1. Perimeter  &  b  
+      print(''' 
+      Perimeter 
+a =  ─────────── - b 
+          2 
+''')  
+
+      b = user_input_number ( ( 'b = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      perimeter = user_input_number ( ( 'Perimeter = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m a ≈ { ( perimeter / 2 ) - b } \033[0m')  
+
+
+
+    else :  #  2. Area  &  b  
+      print(''' 
+       Area 
+a =  ──────── 
+        b 
+''')  
+
+      b = user_input_number ( ( 'b = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      area = user_input_number ( ( 'Area = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m a ≈ { area / b } \033[0m')  
+
+
+
+
+
+  elif rectangle_options == '2' :  #####  2. b  
+    b_options = user_chooses(''' 
+Calculating b By :- 
+
+1. Perimeter  &  a 
+2. Area  &  a 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+    if b_options == '1' :  #  1. Perimeter  &  a  
+      print(''' 
+      Perimeter 
+b =  ─────────── - a 
+          2 
+''')  
+
+      a = user_input_number ( ( 'a = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      perimeter = user_input_number ( ( 'Perimeter = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m b ≈ { ( perimeter / 2 ) - a } \033[0m')  
+
+
+
+    else :  #  2. Area  &  a  
+      print(''' 
+       Area 
+b =  ──────── 
+        a 
+''')  
+
+      a = user_input_number ( ( 'a = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      area = user_input_number ( ( 'Area = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m b ≈ { area / a } \033[0m')  
+
+
+
+
+
+  else :  #####  3. Perimeter  &  Area  
+
+    a = user_input_number ( ( 'a = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+    b = user_input_number ( ( 'b = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+
+    print('\n\nPerimeter = 2 × ( a + b ) ')  
+
+
+    print (f'\n\n--->\033[100;1m Perimeter ≈ { 2 * ( a + b ) } \033[0m')  
+
+
+
+
+    print('\n\nArea = a × b ')  
+
+
+    print (f'\n\n--->\033[100;1m Area ≈ { a * b } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def parallelogram ( ) :  #  ▱   7  
+  parallelogram_options = user_chooses(''' 
+
+                b             
+         ____________________ 
+        /|                  / 
+       / |                 /  
+   a  /  | h              / a 
+     /   |               /    
+    /____|______________/     
+                b             
+
+1. a 
+2. b 
+3. Perimeter 
+4. Area 
+''' , ' > ' , ( '1' , '2' , '3' , '4' ) )  
+
+
+
+
+
+
+  if parallelogram_options == '1' :  #####  1. a  
+    print(''' 
+      Perimeter 
+a =  ─────────── - b 
+          2 
+''')  
+
+    b = user_input_number ( ( 'b = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+    perimeter = user_input_number ( ( 'Perimeter = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    print (f'\n\n\n--->\033[100;1m a ≈ { ( perimeter / 2 ) - b } \033[0m')  
+
+
+
+
+
+  elif parallelogram_options == '2' :  #####  2. b  
+    b_options = user_chooses(''' 
+Calculating b By :- 
+
+1. Perimeter  &  a 
+2. Area  &  h 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+    if b_options == '1' :  #  1. Perimeter  &  a  
+      print(''' 
+      Perimeter 
+b =  ─────────── - a 
+          2 
+''')  
+
+      a = user_input_number ( ( 'a = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      perimeter = user_input_number ( ( 'Perimeter = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m b ≈ { ( perimeter / 2 ) - a } \033[0m')  
+
+
+
+    else :  #  2. Area  &  h  
+      print(''' 
+       Area 
+b =  ──────── 
+        h 
+''')  
+
+      h = user_input_number ( ( 'h = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      area = user_input_number ( ( 'Area = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m b ≈ { area / h } \033[0m')  
+
+
+
+
+
+  elif parallelogram_options == '3' :  #####  3. Perimeter  
+    print('\nPerimeter = 2 × ( a + b ) ')   
+
+    a = user_input_number ( ( 'a = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+    b = user_input_number ( ( 'b = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    print (f'\n\n\n--->\033[100;1m Perimeter ≈ { 2 * ( a + b ) } \033[0m')  
+
+
+
+
+
+  else :  #####  4. Area  
+    print('\nArea = b × h ')   
+
+
+    b = user_input_number ( ( 'b = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+    h = user_input_number ( ( 'h = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    print (f'\n\n\n--->\033[100;1m Area ≈ { b * h } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def trapezoid ( ) :  #  ⏢   8  
+
+  # ===== #  
+  def enter_trapezoid_sides ( ) :  
+    while True :  
+
+      a = user_input_number ( ( 'a = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      b = user_input_number ( ( 'b = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      c = user_input_number ( ( 'c = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      d = user_input_number ( ( 'd = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      #########|
+      if (  
+              a + b + c  >  d  
+          and  
+              a + b + d  >  c  
+          and  
+              a + c + d  >  b  
+          and  
+              b + c + d  >  a  
+      ) :  
+        break  
+
+      else :  
+        print("\n\033[31mError :- \nThe entered lengths do not satisfy the conditions for a trapezoid ,\nEnsure that the sum of any three sides is greater than the fourth side . \033[0m\n")  
+
+      ### OR :-  
+
+      # abcd = ( a , b , c , d )  
+
+      # is_trapezoid = True  
+
+      # for side in range( 4 ) :  
+      #   if sum( abcd ) - abcd [ side ]  <=  abcd [ side ]  :  
+      #     is_trapezoid = False  
+      #     break  
+
+
+
+      # if is_trapezoid :  
+      #   break  
+
+      # else :  
+      #   print("\n\033[31mError :- \nThe entered lengths do not satisfy the conditions for a trapezoid ,\nEnsure that the sum of any three sides is greater than the fourth side . \033[0m\n")  
+      #########|
+
+
+
+    return  a  ,  b  ,  c  ,  d    #--->  Tuple → ( a , b , c , d )  
+  # ===== #  
+
+
+
+  trapezoid_options = user_chooses(''' 
+
+                d              
+       __________________      
+      /|                 \     
+     / |                  \    
+  a /  | h                 \ c 
+   /   |                    \  
+  /____|_____________________\ 
+                b              
+
+1. Perimeter 
+2. Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+
+
+
+  if trapezoid_options == '1' :  ###  1. Perimeter 
+    print ('\nPerimeter = a + b + c + d ')  
+
+
+    print (f'\n\n\n--->\033[100;1m Perimeter ≈ { sum( enter_trapezoid_sides() ) } \033[0m')  
+
+
+
+  else :  ###  2. Area  
+    print(''' 
+          ( b + d ) × h 
+Area =  ───────────────── 
+               2 
+''')  
+
+
+
+    while True :  
+
+      b = user_input_number ( ( 'b = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+      d = user_input_number ( ( 'd = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      if b != d :  
+        break  
+
+      else :  
+        print("\n\033[31mError :- \nThe two bases must have different lengths . \033[0m\n")  
+
+
+
+    h = user_input_number ( ( 'h = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+
+    print (f'\n\n\n--->\033[100;1m Area ≈ { ( ( b + d ) * h ) / 2 } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+# ===== ===== ↑ 2D ↑ ===== ===== #  
+
+# ===== ===== ===== ===== ===== ===== ===== #  
+# ===== ===== ===== ===== ===== ===== ===== ===== ===== #  
+# ===== ===== ===== ===== ===== ===== ===== #  
+
+# ===== ===== ↓ 3D ↓ ===== ===== #  
+
+
+
+# ===== ===== ===== #  
+def sphere ( ) :  #   1  
+  PI = 3.141592653589793  
+
+  sphere_options = user_chooses(''' 
+
+          _ , _  
+      , '  .    ' , 
+    ,'    .        ', 
+   ,     .           , 
+  ,     .   ×---------, 
+   ,     .           , 
+    ,     .         ,  
+     ',    .      ,' 
+        ' - , - ' 
+
+1. Radius 
+2. Volume  &  Surface Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+
+
+
+  if sphere_options == '1' :  #####  1. Radius  
+    radius_options = user_chooses(''' 
+Calculating The Radius By :- 
+
+1. Volume 
+2. Surface Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+    if radius_options == '1' :  #  1. Volume 
+      print(''' 
+            ____________ 
+           / 3 × Volume 
+Radius = ³√ ──────────── 
+             4 × π 
+''')  
+
+      volume = user_input_number ( ( 'Volume = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m Radius ≈ { ( ( 3 * volume ) / ( 4 * PI ) ) ** ( 1 / 3 ) } \033[0m')  
+
+
+
+    else :  #  2. Surface Area  
+      print(''' 
+            ______________ 
+           / Surface Area 
+Radius = ²√ ────────────── 
+                4 × π 
+''')  
+
+      surface_area = user_input_number ( ( 'Surface Area = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m Radius ≈ { ( surface_area / ( 4 * PI ) ) ** 0.5 } \033[0m')  
+
+
+
+
+
+  else :  #####  2. Volume  &  Surface Area  
+    radius = user_input_number ( ( 'Radius = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+    print('\n\nVolume = 4/3 × π × Radius³ ')  
+
+    print (f'\n\n--->\033[100;1m Volume ≈ { ( 4 / 3 ) * PI * ( radius ** 3 ) } \033[0m')  
+
+
+
+    print('\n\nSurface Area = 4 × π × Radius² ')  
+
+    print (f'\n\n--->\033[100;1m Surface Area ≈ { 4 * PI * ( radius ** 2 ) } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def cylinder ( ) :  #   2  
+  PI = 3.141592653589793  
+
+  print(''' 
+
+    .------.         
+   |   ×----| Radius 
+   |.__|___.|        
+   |   |    |        
+   |   | h  |        
+   |   |    |        
+   |   |    |        
+   |   |    |        
+   |---|----|        
+   '.______.'        
+
+''')  
+
+
+
+  radius = user_input_number ( ( 'Radius = ' , ' ' )  
+  , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+  h = user_input_number ( ( 'h = ' , ' ' )  
+  , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+
+
+  print('\n\nVolume = π × Radius² × h ')  
+
+  print (f'\n\n--->\033[100;1m Volume ≈ { PI * ( radius ** 2 ) * h } \033[0m')  
+
+
+
+
+  print('\n\n\nOne Base Area = π × Radius² ')  
+  base_area                  = PI * ( radius ** 2 )  
+  print (f'\n--->\033[100;1m One Base Area ≈ { base_area } \033[0m')  
+
+
+  print('\n\nLateral Area = 2 × π × Radius × h ')  
+  lateral_Area            = 2 * PI * radius * h  
+  print (f'\n--->\033[100;1m Lateral Area ≈ { lateral_Area } \033[0m')  
+
+
+  print('\n\nTotal Surface Area = Two Bases Area + Lateral Area ')  
+
+  print (f'\n--->\033[100;1m Total Surface Area ≈ { ( 2 * base_area ) + lateral_Area } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def pyramid ( ) :  #   3  
+  pyramid_options = user_chooses(''' 
+Regular Square Pyramid :- 
+
+       /\.         
+      /  \`.       
+     /    \ `.     
+    /      \  `.   
+   /        \   `. 
+  /          \  /  
+ /____________\/   
+
+1. Volume 
+2. Surface Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+
+
+  if pyramid_options == '1' :  #  1. Volume  
+    print(''' 
+
+       /|\.         
+      / | \`.       
+     /  |  \ `.     
+    / h |   \  `.   
+   /    |    \   `. 
+  /     ×     \  /  
+ /_____________\/   
+ a             b    
+
+''')  
+
+    print('Volume = 1/3 × Base Area × h ')  
+
+
+    h = user_input_number ( ( 'h = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    ab = user_input_number ( ( 'ab = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+    print (f'\n\n\n--->\033[100;1m Volume ≈ { ( 1 / 3 ) * ( ab * ab ) * h } \033[0m')    
+
+
+
+
+
+  else :  #  2. Surface Area  
+    print(''' 
+
+        ↑.              
+       / \.` .          
+      /   \`. ` .       
+     /     \ `.   ` .   
+    /       \  `.  /    
+   /         \   `.-→ h 
+  /           \  /      
+ /_____________\/       
+ a             b      
+
+''')  
+
+    print('Surface Area = Base Area + 1/2 × Base Perimeter × h ')  
+
+
+    h = user_input_number ( ( 'h = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    ab = user_input_number ( ( 'ab = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+    print (f'\n\n\n--->\033[100;1m Surface Area ≈ { ( ab * ab ) + ( ( 1 / 2 ) * ( ab * 4 ) * h ) } \033[0m')    
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def cone ( ) :  #   4  
+  PI = 3.141592653589793  
+
+  cone_options = user_chooses(''' 
+
+       /↑\    
+      / | \   
+     /  |  \  
+    /.'`|`'.\ 
+    '-.-.-.-' 
+
+1. Volume 
+2. Surface Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+
+
+  if cone_options == '1' :  #  1. Volume  
+    print(''' 
+
+       /↑\              
+      / | \             
+     /  |h \            
+    /.'`|`'.\           
+   /    ×----\-→ Radius 
+   '-.-.-.-.-'          
+
+''')  
+
+    print('Volume = 1/3 × [ Base Area = π × Radius² ] × h ')  
+
+
+    radius = user_input_number ( ( 'Radius = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    h = user_input_number ( ( 'h = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+    print (f'\n\n\n--->\033[100;1m Volume ≈ { ( 1 / 3 ) * ( PI * ( radius ** 2 ) ) * h } \033[0m')    
+
+
+
+
+
+  else :  #  2. Surface Area  
+    print(''' 
+
+       /↑\              
+      / | \             
+ h ←-/  |  \            
+    /.'`|`'.\           
+   /    ×----\-→ Radius 
+   '-.-.-.-.-'          
+
+''')  
+
+    print('''
+Surface Area = Base Area + Lateral Area 
+
+Base Area = π × Radius² 
+
+Lateral Area = π × Radius × h 
+''')  
+
+
+    radius = user_input_number ( ( 'Radius = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+    h = user_input_number ( ( 'h = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+    print (f'\n\n\n--->\033[100;1m Surface Area ≈ { ( PI * ( radius ** 2 ) ) + ( PI * radius * h ) } \033[0m')    
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def cube ( ) :  #   5  
+  cube_options = user_chooses(''' 
+
+     +------+   
+    /|     /|   
+   +-+----+ | a 
+   | |    | |   
+   | +----+-+   
+   |/     |/    
+   +------+     
+
+1. a 
+2. Volume  &  Surface Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+
+
+
+  if cube_options == '1' :  #####  1. a  
+    a_options = user_chooses(''' 
+Calculating a By :- 
+
+1. Volume 
+2. Surface Area 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+
+    if a_options == '1' :  #  1. Volume 
+      print(''' 
+      ________ 
+a = ³√ Volume 
+''')  
+
+      volume = user_input_number ( ( 'Volume = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m a ≈ { volume ** ( 1 / 3 ) } \033[0m')  
+
+
+
+    else :  #  2. Surface Area  
+      print(''' 
+       ______________ 
+      / Surface Area 
+a = ²√ ────────────── 
+             6 
+''')  
+
+      surface_area = user_input_number ( ( 'Surface Area = ' , ' ' )  
+      , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+      print (f'\n\n\n--->\033[100;1m a ≈ { ( surface_area / 6 ) ** 0.5 } \033[0m')  
+
+
+
+
+
+  else :  #####  2. Volume  &  Surface Area  
+    a = user_input_number ( ( 'a = ' , ' ' )  
+    , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+    print('\n\nVolume = a³ ')  
+
+    print (f'\n\n--->\033[100;1m Volume ≈ { a * a * a } \033[0m')  
+
+
+
+    print('\n\nSurface Area = 6 × a² ')  
+
+    print (f'\n\n--->\033[100;1m Surface Area ≈ { 6 * ( a * a ) } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def rectangular_prism ( ) :  #   6  
+
+  print(''' 
+
+       w            
+   +--------+.      
+   |`.      | `.    
+   |  `.    |   `.  
+ h |    `+--+-----+ 
+   |     |  |     | 
+   +-----+--+.    | 
+    `.   |    `.  | 
+    l `. |      `.| 
+        `+--------+ 
+
+''')  
+
+
+
+  l = user_input_number ( ( 'l = ' , ' ' )  
+  , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+  w = user_input_number ( ( 'w = ' , ' ' )  
+  , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+  h = user_input_number ( ( 'h = ' , ' ' )  
+  , positive_negative = '+' , include_zero__zero_message = ( False , '?' ) )  
+
+
+
+
+
+  print('\n\nVolume = l × w × h ')  
+
+  print (f'\n\n--->\033[100;1m Volume ≈ { l * w * h } \033[0m')  
+
+
+
+  print('\n\nSurface Area = 2 × l × w  +  2 × l × h  +  2 × w × h ')  
+
+  print (f'\n\n--->\033[100;1m Surface Area ≈ { ( 2 * l * w )  +  ( 2 * l * h )  +  ( 2 * w * h ) } \033[0m')  
+# ===== ===== ===== #  
+
+
+
+# ===== ===== ===== ===== #  
+# ===== ===== ===== ===== #  
+# ===== ===== ===== ===== #  
+# ===== ===== ===== ===== #  
+# ===== ===== ===== ===== #  
+
+
+
+def geometric_shapes () :  
+  _2D_3D_ = user_chooses ( '' , '( 2D  or  3D ) Geometric Shapes ~> ' , ( '2' , '2d' , '3' , '3d' ) , input_letter_case = 'lower' )  
+
+
+
+  shapes_list       = ( geometric_2D_shapes_list        if '2' in _2D_3D_ else  geometric_3D_shapes_list       )  
+  print_shapes_list = ( print_geometric_2D_shapes_list  if '2' in _2D_3D_ else  print_geometric_3D_shapes_list )  
+
+
+  shape = user_chooses(f'''\n\nPlease select a shape number :- \n 
+{ print_shapes_list } 
+''' , ' > ' , tuple( map( str , range( 1 , len( shapes_list ) + 1 ) ) ) )  
+
+
+
+  print ('\n  ' , shapes_list [ int( shape ) - 1 ] )  
+
+
+
+
+
+  if shapes_list == geometric_2D_shapes_list :  
+    if shape == '1' :  #  1. Circle   〇  
+      circle()  
+    elif shape == '2' :  #  2. Oval   ⬯  
+      oval()  
+    elif shape == '3' :  #  3. Triangle   ꕔ  
+      triangle()  
+    elif shape == '4' :  #  4. Square   ☐  
+      square()  
+    elif shape == '5' :  #  5. Rhombus   ◊  
+      rhombus()  
+    elif shape == '6' :  #  6. Rectangle   ▭  
+      rectangle()  
+    elif shape == '7' :  #  7. Parallelogram   ▱  
+      parallelogram()  
+    else :               #  8. Trapezoid   ⏢  
+      trapezoid()  
+
+
+
+
+
+
+  else :  #  geometric_3D_shapes_list  
+    if shape == '1' :  #  1. Sphere  
+      sphere()  
+    elif shape == '2' :  #  2. Cylinder  
+      cylinder()  
+    elif shape == '3' :  #  3. Pyramid  
+      pyramid()  
+    elif shape == '4' :  #  4. Cone  
+      cone()  
+    elif shape == '5' :  #  5. Cube  
+      cube()  
+    else :               #  6. Rectangular Prism  
+      rectangular_prism()  
+
+
+
+
+
+
+
+
+
+
+  return '\033[0m\033[2K'  #  main.py  بيمسح سطر طباعة النتيجة اللى فى  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 1️⃣ 8️⃣ . Units Conversion ]  
+###  تحويل الوحدات  :-  
+
+
+
+# ===== ===== ===== #  
+def length ( ) :  #  1  📏  
+  print()  
+
+  entered_KM =      input__num__or__0 ( 'Kilometer  (KM) = ' )  
+  entered_M  =      input__num__or__0 ( 'Meter      (M)  = ' )  
+  entered_YD =      input__num__or__0 ( 'Yard       (YD) = ' )  
+  entered_FT =      input__num__or__0 ( 'Foot       (FT) = ' )  
+  entered_DM =      input__num__or__0 ( 'Decimeter  (DM) = ' )  
+  entered_IN =      input__num__or__0 ( 'Inch       (IN) = ' )  
+  entered_CM = int( input__num__or__0 ( 'Centimeter (CM) = ' ) )  
+
+
+
+
+
+  #  p --> per      
+  CM_p_KM = 1_000_00  
+  CM_p_M  = 100     
+  CM_p_YD = 91.44   
+  CM_p_FT = 30.48   
+  CM_p_DM = 10      
+  CM_p_IN = 2.54    
+
+
+
+  KM_to_CM = entered_KM * CM_p_KM  #  1_000_00  
+  M_to_CM  = entered_M  * CM_p_M   #  100       
+  YD_to_CM = entered_YD * CM_p_YD  #  91.44     
+  FT_to_CM = entered_FT * CM_p_FT  #  30.48     
+  DM_to_CM = entered_DM * CM_p_DM  #  10        
+  IN_to_CM = entered_IN * CM_p_IN  #  2.54      
+
+
+
+  total_CM = (  
+
+    entered_CM  
+  + IN_to_CM    
+  + DM_to_CM    
+  + FT_to_CM    
+  + YD_to_CM    
+  + M_to_CM     
+  + KM_to_CM    
+
+  )  
+
+
+
+
+
+  ## Convert  total_CM  ~>  KM & M & YD & FT & DM & IN & CM  
+
+  KM = total_CM // CM_p_KM  
+
+  remaining_CM = total_CM % CM_p_KM  
+
+  M = remaining_CM // CM_p_M  
+
+  remaining_CM %= CM_p_M  
+
+  YD = remaining_CM // CM_p_YD  
+
+  remaining_CM %= CM_p_YD  
+
+  FT = remaining_CM // CM_p_FT  
+
+  remaining_CM %= CM_p_FT  
+
+  DM = remaining_CM // CM_p_DM  
+
+  remaining_CM %= CM_p_DM  
+
+  IN = remaining_CM // CM_p_IN  
+
+  CM = remaining_CM %  CM_p_IN  
+  # CM -> ( remaining_CM %= CM_p_IN )  
+
+
+
+  print('\033[100;1m\n\n\n ↓ ↓ ↓' , total_CM / CM_p_KM , '(KM) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(KM) , ' (KM)')  
+  print('~~~> ' , int(M)  , ' (M)' )  
+  print('~~~> ' , int(YD) , ' (YD)')  
+  print('~~~> ' , int(FT) , ' (FT)')  
+  print('~~~> ' , int(DM) , ' (DM)')  
+  print('~~~> ' , int(IN) , ' (IN)')  
+  print('~~~> ' , int(CM) , ' (CM)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_CM  ~>  M & YD & FT & DM & IN & CM  
+
+  M = total_CM // CM_p_M  ;  remaining_CM = total_CM % CM_p_M  
+
+  YD = remaining_CM // CM_p_YD  ;  remaining_CM %= CM_p_YD  
+
+  FT = remaining_CM // CM_p_FT  ;  remaining_CM %= CM_p_FT  
+
+  DM = remaining_CM // CM_p_DM  ;  remaining_CM %= CM_p_DM  
+
+  IN = remaining_CM // CM_p_IN  
+
+  CM = remaining_CM %  CM_p_IN  
+
+
+
+  print(' ↓ ↓ ↓' , total_CM / CM_p_M , '(M) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(M)  , ' (M)' )  
+  print('~~~> ' , int(YD) , ' (YD)')  
+  print('~~~> ' , int(FT) , ' (FT)')  
+  print('~~~> ' , int(DM) , ' (DM)')  
+  print('~~~> ' , int(IN) , ' (IN)')  
+  print('~~~> ' , int(CM) , ' (CM)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------ 
+
+
+
+  ## Convert  total_CM  ~>  YD & FT & DM & IN & CM  
+
+  YD =   total_CM // CM_p_YD  
+  FT = ( total_CM %  CM_p_YD ) // CM_p_FT  
+  DM = ( total_CM %  CM_p_YD   %  CM_p_FT ) // CM_p_DM  
+  IN = ( total_CM %  CM_p_YD   %  CM_p_FT   %  CM_p_DM ) // CM_p_IN  
+  CM =   total_CM %  CM_p_YD   %  CM_p_FT   %  CM_p_DM   %  CM_p_IN  
+
+
+
+  print(' ↓ ↓ ↓' , total_CM / CM_p_YD , '(YD) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(YD) , ' (YD)')  
+  print('~~~> ' , int(FT) , ' (FT)')  
+  print('~~~> ' , int(DM) , ' (DM)')  
+  print('~~~> ' , int(IN) , ' (IN)')  
+  print('~~~> ' , int(CM) , ' (CM)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_CM  ~>  FT & DM & IN & CM  
+
+  FT =   total_CM // CM_p_FT  
+  DM = ( total_CM %  CM_p_FT ) // CM_p_DM  
+  IN = ( total_CM %  CM_p_FT   %  CM_p_DM ) // CM_p_IN  
+  CM =   total_CM %  CM_p_FT   %  CM_p_DM   %  CM_p_IN  
+
+
+
+  print(' ↓ ↓ ↓' , total_CM / CM_p_FT , '(FT) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(FT) , ' (FT)')  
+  print('~~~> ' , int(DM) , ' (DM)')  
+  print('~~~> ' , int(IN) , ' (IN)')  
+  print('~~~> ' , int(CM) , ' (CM)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_CM  ~>  DM & IN & CM  
+
+  DM =   total_CM // CM_p_DM  
+  IN = ( total_CM %  CM_p_DM ) // CM_p_IN  
+  CM =   total_CM %  CM_p_DM   %  CM_p_IN  
+
+
+
+  print(' ↓ ↓ ↓' , total_CM / CM_p_DM , '(DM) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(DM) , ' (DM)')  
+  print('~~~> ' , int(IN) , ' (IN)')  
+  print('~~~> ' , int(CM) , ' (CM)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_CM  ~>  IN & CM  
+
+  IN = total_CM // CM_p_IN 
+  CM = total_CM %  CM_p_IN 
+
+
+
+  print(' ↓ ↓ ↓' , total_CM / CM_p_IN , '(IN) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(IN) , ' (IN)')  
+  print('~~~> ' , int(CM) , ' (CM)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  print('~~~> ' , int(total_CM) , ' (CM)\n\n\033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def weight ( ) :  #  2  ⚖️  
+  print()  
+
+  entered_T  =      input__num__or__0 ( 'Metric Ton (T)  = ' )  
+  entered_KG =      input__num__or__0 ( 'Kilogram   (KM) = ' )  
+  entered_LB =      input__num__or__0 ( 'Pound      (LB) = ' )  
+  entered_G  = int( input__num__or__0 ( 'Gram       (G)  = ' ) )  
+
+
+
+
+
+  #  p --> per      
+  G_p_T  = 1_000_000  
+  G_p_KG = 1_000      
+  G_p_LB = 453.59237  
+
+
+
+  T_to_G  = entered_T  * G_p_T   #  1_000_000  
+  KG_to_G = entered_KG * G_p_KG  #  1_000      
+  LB_to_G = entered_LB * G_p_LB  #  453.59237  
+
+
+
+  total_G = (  
+
+    entered_G  
+  + LB_to_G    
+  + KG_to_G    
+  + T_to_G     
+
+  )  
+
+
+
+
+
+  ## Convert  total_G  ~>  T & KG & LB & G  
+
+  T  =   total_G // G_p_T  
+  KG = ( total_G %  G_p_T ) // G_p_KG  
+  LB = ( total_G %  G_p_T   %  G_p_KG ) // G_p_LB  
+  G  =   total_G %  G_p_T   %  G_p_KG   %  G_p_LB  
+
+
+
+  print('\033[100;1m\n\n\n ↓ ↓ ↓' , total_G / G_p_T , '(T) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(T)  , ' (T)' )  
+  print('~~~> ' , int(KG) , ' (KG)')  
+  print('~~~> ' , int(LB) , ' (LB)')  
+  print('~~~> ' , int(G)  , ' (G)' )  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_G  ~>  KG & LB & G  
+
+  KG =   total_G // G_p_KG  
+  LB = ( total_G %  G_p_KG ) // G_p_LB  
+  G  =   total_G %  G_p_KG   %  G_p_LB  
+
+
+
+  print(' ↓ ↓ ↓' , total_G / G_p_KG , '(KG) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(KG) , ' (KG)')  
+  print('~~~> ' , int(LB) , ' (LB)')  
+  print('~~~> ' , int(G)  , ' (G)' )  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_G  ~>  LB & G  
+
+  LB = total_G // G_p_LB 
+  G  = total_G %  G_p_LB 
+
+
+
+  print(' ↓ ↓ ↓' , total_G / G_p_LB , '(LB) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(LB) , ' (LB)')  
+  print('~~~> ' , int(G)  , ' (G)' )  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  print('~~~> ' , int(total_G) , ' (G)\n\n\033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def data ( ) :  #  3  📂  
+  print()  
+
+  entered_TB =      input__num__or__0 ( 'Terabytes (TB) = ' )  
+  entered_GB =      input__num__or__0 ( 'Gigabytes (GB) = ' )  
+  entered_MB =      input__num__or__0 ( 'Megabytes (MB) = ' )  
+  entered_KB =      input__num__or__0 ( 'Kilobytes (KB) = ' )  
+  entered_B  =      input__num__or__0 ( 'Bytes      (B) = ' )  
+  entered_b  = int( input__num__or__0 ( 'Bits       (b) = ' ) )  
+
+
+
+
+
+  #  b --> bits  |  p --> per             
+  b_p_TB = 1024 * 1024 * 1024 * 1024 * 8  
+  b_p_GB =        1024 * 1024 * 1024 * 8  
+  b_p_MB =               1024 * 1024 * 8  
+  b_p_KB =                      1024 * 8  
+  b_p_B  =                             8  
+
+
+
+  TB_to_b = entered_TB * b_p_TB  
+  GB_to_b = entered_GB * b_p_GB  
+  MB_to_b = entered_MB * b_p_MB  
+  KB_to_b = entered_KB * b_p_KB  
+  B_to_b  = entered_B  * b_p_B # 8  
+
+
+
+  total_b = (  
+
+    entered_b  
+  + B_to_b     
+  + KB_to_b    
+  + MB_to_b    
+  + GB_to_b    
+  + TB_to_b    
+
+  )  
+
+
+
+
+
+  ## Convert  total_b  ~>  TB & GB & MB & KB & B & b  
+
+  TB = total_b // b_p_TB  ;  remaining_b = total_b % b_p_TB  
+
+  GB = remaining_b // b_p_GB  ;  remaining_b %= b_p_GB  
+
+  MB = remaining_b // b_p_MB  ;  remaining_b %= b_p_MB  
+
+  KB = remaining_b // b_p_KB  ;  remaining_b %= b_p_KB  
+
+  B = remaining_b // b_p_B  #  8  
+
+  b = remaining_b %  b_p_B  #  8  
+  # b -> ( remaining_b %= b_p_B )  
+
+
+
+  print('\033[100;1m\n\n\n ↓ ↓ ↓' , total_b / b_p_TB , '(TB) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(TB) , ' (TB)')  
+  print('~~~> ' , int(GB) , ' (GB)')  
+  print('~~~> ' , int(MB) , ' (MB)')  
+  print('~~~> ' , int(KB) , ' (KB)')  
+  print('~~~> ' , int(B)  , ' (B)' )  
+  print('~~~> ' , int(b)  , ' (b)' )  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_b  ~>  GB & MB & KB & B & b  
+
+  GB = total_b // b_p_GB  ;  remaining_b = total_b % b_p_GB  
+
+  MB = remaining_b // b_p_MB  ;  remaining_b %= b_p_MB  
+
+  KB = remaining_b // b_p_KB  ;  remaining_b %= b_p_KB  
+
+  B = remaining_b // b_p_B  #  8  
+
+  b = remaining_b %  b_p_B  #  8  
+  # b -> ( remaining_b %= b_p_B )  
+
+
+
+  print(' ↓ ↓ ↓' , total_b / b_p_GB , '(GB) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(GB) , ' (GB)')  
+  print('~~~> ' , int(MB) , ' (MB)')  
+  print('~~~> ' , int(KB) , ' (KB)')  
+  print('~~~> ' , int(B)  , ' (B)' )  
+  print('~~~> ' , int(b)  , ' (b)' )  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------ 
+
+
+
+  ## Convert  total_b  ~>  MB & KB & B & b  
+
+  MB = total_b // b_p_MB  ;  remaining_b = total_b % b_p_MB  
+
+  KB = remaining_b // b_p_KB  ;  remaining_b %= b_p_KB  
+
+  B = remaining_b // b_p_B  #  8  
+
+  b = remaining_b %  b_p_B  #  8  
+  # b -> ( remaining_b %= b_p_B )  
+
+
+
+  print(' ↓ ↓ ↓' , total_b / b_p_MB , '(MB) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(MB) , ' (MB)')  
+  print('~~~> ' , int(KB) , ' (KB)')  
+  print('~~~> ' , int(B)  , ' (B)' )  
+  print('~~~> ' , int(b)  , ' (b)' )  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_b  ~>  KB & B & b  
+
+  KB = total_b // b_p_KB  ;  remaining_b = total_b % b_p_KB  
+
+  B = remaining_b // b_p_B  #  8  
+
+  b = remaining_b %  b_p_B  #  8  
+  # b -> ( remaining_b %= b_p_B )  
+
+
+
+  print(' ↓ ↓ ↓' , total_b / b_p_KB , '(KB) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(KB) , ' (KB)')  
+  print('~~~> ' , int(B)  , ' (B)' )  
+  print('~~~> ' , int(b)  , ' (b)' )  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_b  ~>  B & b  
+
+  B = total_b // b_p_B  #  8  
+
+  b = total_b %  b_p_B  #  8  
+
+
+
+  print(' ↓ ↓ ↓' , total_b / b_p_B , '(B) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(B)  , ' (B)' )  
+  print('~~~> ' , int(b)  , ' (b)' )  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  print('~~~> ' , int(total_b) , ' (b)\n\n\033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def time ( ) :  #  4  🕗  
+  print()  
+ 
+  entered_years   =      input__num__or__0 ( 'Years   = ' )  
+  entered_months  =      input__num__or__0 ( 'Months  = ' )  
+  entered_weeks   =      input__num__or__0 ( 'Weeks   = ' )  
+  entered_days    =      input__num__or__0 ( 'Days    = ' )  
+  entered_hours   =      input__num__or__0 ( 'Hours   = ' )  
+  entered_minutes =      input__num__or__0 ( 'Minutes = ' )  
+  entered_seconds = int( input__num__or__0 ( 'Seconds = ' ) )  
+
+
+
+
+
+  ## s --> seconds  |  p --> per   #  ↓  الكود مش دقيق اوى للاسف  ↓  
+  s_p_year   = 365 * 24 * 60 * 60  #  طبعا مش كل السنين بيبقى فيها 365  
+  s_p_month  = 30  * 24 * 60 * 60  #  طبعا مش كل الشهور 30 يوم  
+  s_p_week   = 7   * 24 * 60 * 60  
+  s_p_day    =       24 * 60 * 60  
+  s_p_hour   =            60 * 60  
+  s_p_minute =                 60  
+
+
+
+  years_to_seconds   = entered_years   * s_p_year    
+  months_to_seconds  = entered_months  * s_p_month   
+  weeks_to_seconds   = entered_weeks   * s_p_week    
+  days_to_seconds    = entered_days    * s_p_day     
+  hours_to_seconds   = entered_hours   * s_p_hour    
+  minutes_to_seconds = entered_minutes * s_p_minute  
+
+
+
+  total_seconds = (  
+
+    entered_seconds  
+  + minutes_to_seconds  
+  + hours_to_seconds  
+  + days_to_seconds  
+  + weeks_to_seconds  
+  + months_to_seconds  
+  + years_to_seconds  
+
+  )  
+
+
+
+
+
+  ## Convert  total_seconds  ~>  years & months & weeks & days & hours & minutes & seconds  
+
+  years = total_seconds // s_p_year  
+
+  remaining_seconds = total_seconds % s_p_year  
+
+  months = remaining_seconds // s_p_month  
+
+  remaining_seconds %= s_p_month  
+
+  weeks = remaining_seconds // s_p_week  
+
+  remaining_seconds %= s_p_week  
+
+  days = remaining_seconds // s_p_day  
+
+  remaining_seconds %= s_p_day  
+
+  hours = remaining_seconds // s_p_hour  
+
+  remaining_seconds %= s_p_hour  
+
+  minutes = remaining_seconds // s_p_minute  #  60  
+
+  seconds = remaining_seconds %  s_p_minute  #  60  
+  # seconds -> ( remaining_seconds %= s_p_minute )  
+
+
+
+  print('\033[100;1m\n\n\n ↓ ↓ ↓' , total_seconds / s_p_year , 'Year(s) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(years)   , ' Year(s)'  )  
+  print('~~~> ' , int(months)  , ' Month(s)' )  
+  print('~~~> ' , int(weeks)   , ' Week(s)'  )  
+  print('~~~> ' , int(days)    , ' Day(s)'   )  
+  print('~~~> ' , int(hours)   , ' Hour(s)'  )  
+  print('~~~> ' , int(minutes) , ' Minute(s)')  
+  print('~~~> ' , int(seconds) , ' Second(s)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_seconds  ~>  months & weeks & days & hours & minutes & seconds  
+
+  months  =   total_seconds // s_p_month  
+  weeks   = ( total_seconds %  s_p_month ) // s_p_week  
+  days    = ( total_seconds %  s_p_month   %  s_p_week ) // s_p_day  
+  hours   = ( total_seconds %  s_p_month   %  s_p_week   %  s_p_day ) // s_p_hour  
+  minutes = ( total_seconds %  s_p_month   %  s_p_week   %  s_p_day   %  s_p_hour ) // 60  
+  seconds =   total_seconds %  s_p_month   %  s_p_week   %  s_p_day   %  s_p_hour   %  60  
+
+
+
+  print(' ↓ ↓ ↓' , total_seconds / s_p_month , 'Month(s) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(months)  , ' Month(s)' )  
+  print('~~~> ' , int(weeks)   , ' Week(s)'  )  
+  print('~~~> ' , int(days)    , ' Day(s)'   )  
+  print('~~~> ' , int(hours)   , ' Hour(s)'  )  
+  print('~~~> ' , int(minutes) , ' Minute(s)')  
+  print('~~~> ' , int(seconds) , ' Second(s)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------ 
+
+
+
+  ## Convert  total_seconds  ~>  weeks & days & hours & minutes & seconds  
+
+  weeks   =   total_seconds // s_p_week  
+  days    = ( total_seconds %  s_p_week ) // s_p_day  
+  hours   = ( total_seconds %  s_p_week   %  s_p_day ) // s_p_hour  
+  minutes = ( total_seconds %  s_p_week   %  s_p_day   %  s_p_hour ) // 60  
+  seconds =   total_seconds %  s_p_week   %  s_p_day   %  s_p_hour   %  60  
+
+
+
+  print(' ↓ ↓ ↓' , total_seconds / s_p_week , 'Week(s) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(weeks)   , ' Week(s)'  )  
+  print('~~~> ' , int(days)    , ' Day(s)'   )  
+  print('~~~> ' , int(hours)   , ' Hour(s)'  )  
+  print('~~~> ' , int(minutes) , ' Minute(s)')  
+  print('~~~> ' , int(seconds) , ' Second(s)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_seconds  ~>  days & hours & minutes & seconds  
+
+  days    =   total_seconds // s_p_day  
+  hours   = ( total_seconds %  s_p_day ) // s_p_hour  
+  minutes = ( total_seconds %  s_p_day   %  s_p_hour ) // 60  
+  seconds =   total_seconds %  s_p_day   %  s_p_hour   %  60  
+
+
+
+  print(' ↓ ↓ ↓' , total_seconds / s_p_day , 'Day(s) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(days)    , ' Day(s)'   )  
+  print('~~~> ' , int(hours)   , ' Hour(s)'  )  
+  print('~~~> ' , int(minutes) , ' Minute(s)')  
+  print('~~~> ' , int(seconds) , ' Second(s)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_seconds  ~>  hours & minutes & seconds  
+
+  hours   =   total_seconds // s_p_hour  
+  minutes = ( total_seconds %  s_p_hour ) // 60  
+  seconds =   total_seconds %  s_p_hour   %  60  
+
+
+
+  print(' ↓ ↓ ↓' , total_seconds / s_p_hour , 'Hour(s) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(hours)   , ' Hour(s)'  )  
+  print('~~~> ' , int(minutes) , ' Minute(s)')  
+  print('~~~> ' , int(seconds) , ' Second(s)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  ## Convert  total_seconds  ~>  minutes & seconds  
+
+  minutes = total_seconds // 60 
+  seconds = total_seconds %  60 
+
+
+
+  print(' ↓ ↓ ↓' , total_seconds / 60 , 'Minute(s) ↓ ↓ ↓ \n' )  
+
+  print('~~~> ' , int(minutes) , ' Minute(s)')  
+  print('~~~> ' , int(seconds) , ' Second(s)')  
+
+
+
+  print('\n\n------------------------------\n\n') # ------------------------------  
+
+
+
+  print('~~~> ' , int(total_seconds) , ' Second(s)\n\n\033[0m')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+def cur ( ) :  #  5. Currency  💱  
+  print()  ;  cur_from          = not_empty_input('Base Currency Name : ')  
+  print()  ;  cur_from___USD    = user_input_number( ( f'$ 1 USD = ? { cur_from } ---> ' , ' ' ) , positive_negative = '+' )  
+  print()  ;  cur_from___amount = user_input_number( ( f'How much of { cur_from } do you have ? ---> ' , ' ' ) , positive_negative = '+' )  
+
+
+  print()  ;  print()  ;  print()  
+
+
+  print()  ;  cur_to       = not_empty_input('Target Currency Name : ')  
+  print()  ;  cur_to___USD = user_input_number( ( f'$ 1 USD = ? { cur_to } ---> ' , ' ' ) , positive_negative = '+' )  
+
+
+
+  exchange_rate = cur_to___USD / cur_from___USD  
+
+
+
+  print(f'''\033[100;1m\n\n 
+Exchange Rate : 1 { cur_from } ≈ { round( exchange_rate , 2 ) } { cur_to } 
+
+
+{ cur_from___amount } { cur_from } ≈ { round( cur_from___amount * exchange_rate , 2 ) } { cur_to } 
+\033[0m''')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+# ===== ===== #  
+def C_to_F ( C ) :  
+  return   ( C * ( 9 / 5 ) ) + 32  
+# ===== ===== #  
+
+
+
+# ===== ===== #  
+def F_to_C ( F ) :  
+  return   ( F - 32 ) * ( 5 / 9 )  
+# ===== ===== #  
+
+
+
+# ===== ===== #  
+def C_to_K ( C ) :  
+  return     C + 273.15  
+# ===== ===== #  
+
+
+
+# ===== ===== #  
+def K_to_C ( K ) :  
+  return     K - 273.15  
+# ===== ===== #  
+
+
+
+# ===== ===== #  
+def F_to_K ( F ) :  
+  return ( ( F - 32 ) * ( 5 / 9 ) ) + 273.15  
+  ### OR :-  
+  # return C_to_K( F_to_C( F ) )  
+# ===== ===== #  
+
+
+
+# ===== ===== #  
+def K_to_F ( K ) :  
+  return ( ( K - 273.15 ) * ( 9 / 5 ) ) + 32  
+  ### OR :-  
+  # return C_to_F( K_to_C( K ) )  
+# ===== ===== #  
+
+
+
+
+
+def temperature ( ) :  #  6  🌡️  
+  _from_ = user_chooses('''\nConversion From :- 
+
+1. Celsius 
+2. Fahrenheit 
+3. Kelvin 
+''' , ' > ' , ( '1' , '2' , '3' ) )  
+
+
+
+  if _from_ == '1' :  #  1. Celsius  
+    print()  ;           celsius = user_input_number( ( 'Celsius = ' , ' ' ) )  
+    fahrenheit = C_to_F( celsius )  
+    kelvin     = C_to_K( celsius )  
+
+
+
+  elif _from_ == '2' :  #  2. Fahrenheit  
+    print()  ;        fahrenheit = user_input_number( ( 'Fahrenheit = ' , ' ' ) )  
+    celsius = F_to_C( fahrenheit )  
+    kelvin  = F_to_K( fahrenheit )  
+
+
+
+  else :  #  3. Kelvin  
+    print()  ;           kelvin = user_input_number( ( 'Kelvin = ' , ' ' ) )  
+    celsius    = K_to_C( kelvin )  
+    fahrenheit = K_to_F( kelvin )  
+
+
+
+
+
+  print(f'''\033[100;1m\n 
+Celsius = { celsius } °C 
+
+Fahrenheit = { fahrenheit } °F 
+
+Kelvin = { kelvin } K 
+\033[0m''')  
+# ===== ===== ===== #  
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+# ===== ===== ===== #  
+# ===== ===== #  
+def dec_to_bin ( dec ) :  
+  bin = ''  
+  while dec != 0 :  
+    _1_0_ = dec % 2  
+    dec //= 2  
+    bin += str( _1_0_ )  
+
+  return bin [::-1]   if bin else   '0'  
+# ===== ===== #  
+
+
+
+# ===== ===== #  
+def dec_to_oct ( dec ) :  
+  oct = ''  
+  while dec != 0 :  
+    _01234567_ = dec % 8  
+    dec //= 8  
+    oct += str( _01234567_ )  
+
+  return oct [::-1]   if oct else   '0'  
+# ===== ===== #  
+
+
+
+# ===== ===== #  
+def dec_to_hex ( dec ) :  
+  hexa_dict = { 10 : 'A'  
+              , 11 : 'B'  
+              , 12 : 'C'  
+              , 13 : 'D'  
+              , 14 : 'E'  
+              , 15 : 'F'  
+              }  
+
+  hex = ''  
+  while dec != 0 :  
+    HEXA = dec % 16  
+    dec //= 16 
+
+               # A    B    C    D    E    F  
+    if HEXA in ( 10 , 11 , 12 , 13 , 14 , 15 ) :  
+      hex += hexa_dict [ HEXA ]  
+
+    else :  
+      hex += str( HEXA )  
+
+
+  return hex [::-1]   if hex else   '0'  
+# ===== ===== #  
+
+
+
+
+
+
+# ===== ===== #  
+def bin_to_dec ( bin ) :  
+  dec = 0 
+  power = 0 
+  for loop in str( bin ) [::-1] :  
+    dec += int( loop ) * ( 2 ** power )  
+    power += 1  
+
+  return dec  
+# ===== ===== #  
+
+
+
+# ===== ===== #  
+def oct_to_dec ( oct ) :  
+  dec = 0 
+  power = 0 
+  for loop in str( oct ) [::-1] :  
+    dec += int( loop ) * ( 8 ** power )  
+    power += 1  
+
+  return dec  
+# ===== ===== #  
+
+
+
+# ===== ===== #  
+def hex_to_dec ( hex ) :  
+
+  hex = str( hex ).upper()  
+
+  hexa_dict = { 'A' : 10  
+              , 'B' : 11  
+              , 'C' : 12  
+              , 'D' : 13  
+              , 'E' : 14  
+              , 'F' : 15  
+              }  
+
+  dec = 0 
+  power = 0 
+  for loop in hex [::-1] :  
+
+               # 10    11    12    13    14    15  
+    if loop in ( 'A' , 'B' , 'C' , 'D' , 'E' , 'F' ) :  
+      dec += hexa_dict [ loop ] * ( 16 ** power )  
+
+    else :  
+      dec += int( loop ) * ( 16 ** power )  
+
+    power += 1  
+
+
+  return dec  
+# ===== ===== #  
+
+
+
+
+
+def bin_oct_dec_hex ( ) :  #  7. BIN <-> OCT <-> DEC <-> HEX  
+  _from_ = user_chooses('''\nConversion From :- 
+
+1. Binary
+2. Octal
+3. Decimal
+4. Hexadecimal
+''' , ' > ' , ( '1' , '2' , '3' , '4' ) )  
+
+
+  if _from_ == '1' :  #  1. Binary  
+    print()  ;  print()  
+    while True :  
+      _bin_ = input('\nBinary Value = ')  
+
+      is_bin = True  
+      for loop in _bin_ :  
+        if loop not in '01' :  
+          print('\033[F\033[2K' * 4 , end = '' )  
+          print('\n\033[31mError : Invalid Binary Value .\033[0m')  
+          is_bin = False  
+          break  
+
+      if not _bin_ :  
+        print('\033[F\033[2K' * 4 , end = '' )  
+        print('\n\033[31mError : Empty Input .\033[0m')  
+        is_bin = False  
+
+      if is_bin :  
+        break  
+
+
+    dec = bin_to_dec( _bin_ )  
+    ### OR :-  
+    # dec = int( _bin_ , 2 )  
+
+
+
+  elif _from_ == '2' :  #  2. Octal  
+    print()  ;  print()  
+    while True :  
+      _oct_ = input('\nOctal Value = ')  
+
+      is_oct = True  
+      for loop in _oct_ :  
+        if loop not in '01234567' :  
+          print('\033[F\033[2K' * 4 , end = '' )  
+          print('\n\033[31mError : Invalid Octal Value .\033[0m')  
+          is_oct = False  
+          break  
+
+      if not _oct_ :  
+        print('\033[F\033[2K' * 4 , end = '' )  
+        print('\n\033[31mError : Empty Input .\033[0m')  
+        is_oct = False  
+
+      if is_oct :  
+        break  
+
+
+    dec = oct_to_dec( _oct_ )  
+    ### OR :-  
+    # dec = int( _oct_ , 8 )  
+
+
+
+  elif _from_ == '3' :  #  3. Decimal  
+    print()  ;  dec = user_input_number( int_only = True , positive_negative = '+' )  
+
+
+
+  else :  #  4. Hexadecimal  
+    print()  ;  print()  
+    while True :  
+      _hex_ = input('\nHexadecimal Value = ').upper()  
+
+      is_hex = True  
+      for loop in _hex_ :  
+        if loop not in '0123456789ABCDEF' :  
+          print('\033[F\033[2K' * 4 , end = '' )  
+          print('\n\033[31mError : Invalid Hexadecimal Value .\033[0m')  
+          is_hex = False  
+          break  
+
+      if not _hex_ :  
+        print('\033[F\033[2K' * 4 , end = '' )  
+        print('\n\033[31mError : Empty Input .\033[0m')  
+        is_hex = False  
+
+      if is_hex :  
+        break  
+
+
+    dec = hex_to_dec( _hex_ )  
+    ### OR :-  
+    # dec = int( _hex_ , 16 )  
+
+
+
+
+
+  print(f'''\033[100;1m\n 
+Binary = { dec_to_bin( dec ) } 
+
+Octal = { dec_to_oct( dec ) } 
+
+Decimal = { dec } 
+
+Hexadecimal = { dec_to_hex( dec ) } 
+\033[0m''')  
+
+
+  ### OR :-  
+
+
+#   print(f'''\033[100;1m\n 
+# Binary = { bin( dec ) } 
+
+# Octal = { oct( dec ) } 
+
+# Decimal = { dec } 
+
+# Hexadecimal = { hex( dec ) } 
+# \033[0m''')  
+# ===== ===== ===== #  
+
+
+
+# ===== ===== ===== ===== #  
+# ===== ===== ===== ===== ===== #  
+# ===== ===== ===== ===== #  
+
+
+
+def units_conversion () :  
+  options_list = (
+'1. Length 📏 '  
+,  
+'2. Weight ⚖️ '  
+,  
+'3. Data 📂 '  
+,  
+'4. Time 🕗 '  
+,  
+'5. Currency 💱 '  
+,  
+'6. Temperature 🌡️ '  
+,  
+'7. BIN <-> OCT <-> DEC <-> HEX'  
+)  ;  print_options = '\n' . join ( options_list )  
+
+
+
+  option = user_chooses (f'''\nPlease select an option : ( 1 - 2 - 3 - 4 - 5 - 6 - 7 ) :- 
+
+{ print_options } 
+''' , ' > ' , ( '1' , '2' , '3' , '4' , '5' , '6' , '7' ) )  
+
+
+  print ('\n   ' + options_list [ int( option ) - 1 ] + ' :-' )  
+
+
+
+
+
+  if option == '1' :  #  1. Length  📏  
+    length()  
+  elif option == '2' :  #  2. Weight  ⚖️  
+    weight()  
+  elif option == '3' :  #  3. Data  📂  
+    data()  
+  elif option == '4' :  #  4. Time  🕗  
+    time()  
+  elif option == '5' :  #  5. Currency  💱  
+    cur()  
+  elif option == '6' :  #  6. Temperature  🌡️  
+    temperature()  
+  else :  # == '7'  #  7. BIN <-> OCT <-> DEC <-> HEX  
+    bin_oct_dec_hex()  
+
+
+
+
+
+  return '\033[0m\033[2K'  #  main.py  بيمسح سطر طباعة النتيجة اللى فى  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+#------------------------------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------------------------------# 
+
+
+
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+# [ 1️⃣ 9️⃣ . Purchase Calculation ]  
+###  حساب المشتريات  :-  
+def purchase_calculation () :  
+  items__quantities_names_prices__list = ( )  
+
+
+
+  print ('\n(Note : Press Enter 2 Times To Finish)')  
+  first_time = True  
+  while True :  
+    item = input('\nEnter Item Name : ')  
+
+
+
+    if  first_time  and  ( not item  or  item.isspace() )  :  
+      print('\033[2F\033[2K' , end = '' )  
+      continue  
+
+    first_time = False  
+
+    if  not item  or  item.isspace()  :  
+      print('\033[F\033[2K' * 2 , end = '' )  
+      break  
+
+
+
+
+    sold_by = user_chooses(f''' 
+{ item } Sold By :- 
+
+1. Unit 
+2. Kilogram 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+    if   sold_by == '1' :  #  Units  
+      print()  ;  quantity = user_input_number ( ( ' > ' , f'How many units of { item } do you have ?' ) , positive_negative = '+' , int_only = True )  
+      print()  ;  price    = user_input_number ( ( f'One of { item } Price = $ ' , ' ' ) , positive_negative = '+' )  
+      Q = str( quantity )  
+
+    else :        #  3     #  Kilosgrams  
+      print()  ;  quantity = user_input_number ( ( ' > ' , f'How many kilograms of { item } do you have ?' ) , positive_negative = '+' )  
+      print()  ;  price    = user_input_number ( ( f'One Kilogram of { item } Price = $ ' , ' ' ) , positive_negative = '+' )  
+      Q = f'{ quantity } Kilogram\s'  
+
+
+
+    items__quantities_names_prices__list += ( ( Q , item , quantity * price ) , )  
+
+
+
+    print('\n\n   ------------------------------   \n\n')  
+
+
+
+
+
+
+  total_price = 0  
+  for item in items__quantities_names_prices__list :  
+    total_price += item [ -1 ]  
+
+
+
+  print('\033[100;1m' , end = '')  
+  for  item_quantity , item_name , item_price  in  items__quantities_names_prices__list  :  
+    print(f'  { item_quantity } of { item_name } = { item_price } $ ')  
+
+  print('\n ────────────────────────────────────────────────── \n')  
+  print(f'---> Total Price = { total_price } $ ')  
+  print('\033[0m' , end = '')  
+
+
+
+
+
+  D = False  
+  if input('\nIs there a discount on the total price ? \n(Yes/No) -> ').lower() not in ( 'no' , 'n' ) :  
+    D = True  
+    discount_value_pct = user_chooses(''' 
+Discount By :- 
+
+1. Value 
+2. Percentage % 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+    print()  ;  discount = user_input_number( (  'Discount = $ '  if discount_value_pct == '1' else  'Discount Percentage = % '  , ' ' )  
+                                                                                                             , positive_negative = '+' )  
+
+    if discount_value_pct == '2' :  
+      discount = total_price * ( discount / 100 )  
+
+    total_price -= discount  
+
+
+    print(f'\n\n\033[100;1m( After { discount } $ Discount )\n\n---> Total Price = { total_price } $ \033[0m')  
+
+
+
+
+  F = False  
+  if input('\nAre there fees on the total price ? \n(Yes/No) -> ').lower() not in ( 'no' , 'n' ) :  
+    F = True  
+    fees_value_pct = user_chooses(''' 
+Fees By :- 
+
+1. Value 
+2. Percentage % 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+    print()  ;  fees = user_input_number( (  'Fees = $ '  if fees_value_pct == '1' else  'Fees Percentage = % '  , ' ' )  
+                                                                                             , positive_negative = '+' )  
+
+    if fees_value_pct == '2' :  
+      fees = total_price * ( fees / 100 )  
+
+    total_price += fees  
+
+
+    print('\n\033[100;1m')  
+    if D :  
+      print(f'( After { discount } $ Discount )')  
+    print(f'( After { fees } $ Fees )\n\n---> Total Price = { total_price } $ \033[0m')  
+
+
+
+
+  if input('\nAre there taxes on the total price ? \n(Yes/No) -> ').lower() not in ( 'no' , 'n' ) :  
+    taxes_value_pct = user_chooses(''' 
+Fees By :- 
+
+1. Value 
+2. Percentage % 
+''' , ' > ' , ( '1' , '2' ) )  
+
+
+    print()  ;  taxes = user_input_number( (  'Taxes = $ '  if taxes_value_pct == '1' else  'Taxes Percentage = % '  , ' ' )  
+                                                                                                 , positive_negative = '+' )  
+
+    if taxes_value_pct == '2' :  
+      taxes = total_price * ( taxes / 100 )  
+
+    total_price += taxes  
+
+
+    print('\n\033[100;1m')  
+    if D :  
+      print(f'( After { discount } $ Discount )')  
+    if F :  
+      print(f'( After { fees } $ Fees )')  
+    print(f'( After { taxes } $ Taxes )\n\n---> Total Price = { total_price } $ \033[0m')  
+
+
+
+
+
+  return '\033[0m\033[2K'  #  main.py  بيمسح سطر طباعة النتيجة اللى فى  
+### ___________________ 
+#----------------------------------------# 
+#----------------------------------------# 
+#----------------------------------------# 
+
+
+
+
