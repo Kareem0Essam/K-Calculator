@@ -344,7 +344,7 @@ def solve_expression() :
 # [ 7️⃣ . Factorial of NUM! ]  
 ###  المضروب  :-  
 def factorial ( num ) :  #  Positive Integer Number  
-  if  '.' in str( num )  or  '-' in str( num )  :  
+  if  num % 1 != 0   or  num <= -1  :  
     return f'\033[31mError \'{ num }\' : The factorial can be calculated only for positive integers numbers .\033[0m'  
 
   result = 1  
