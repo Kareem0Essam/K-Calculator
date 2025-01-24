@@ -454,19 +454,16 @@ def multiplication_table() :
 # [ 1️⃣ 5️⃣ . NUM --> Prime ? ]  
 ###  هل الرقم اولى  :-  
 def is_prime ( num ) :  
-  if  '.' in str( num )  or  num <= 1  :  
+  if  num % 1 != 0   or  num <= 1  :  
     return False  #  1  ~>  Not Prime  
 
 
-  result = True  
-
   for loop in range ( 2 , ( num // 2 ) + 1 ) :  
       if num % loop == 0 :  
-        result = False  
-        break  
+        return False  
 
 
-  return result  
+  return True  
 ### ___________________ 
 #----------------------------------------# 
 #----------------------------------------# 
